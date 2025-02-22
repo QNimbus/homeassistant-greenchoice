@@ -57,7 +57,7 @@ class GreenchoiceApiData:
         return self.__dict__[item]
 
 
-class GreenchoiceError(Exception):
+class GreenchoiceError(BaseException):
     pass
 
 
@@ -214,7 +214,7 @@ class GreenchoiceApi:
             LOGGER.debug('Retrieving meter values')
             try:
                 monthly_values = self.__microbus_request('OpnamesOphalen')
-            except requests.exceptions.JSONDecodeError | ConnectionError:
+            except (requests.exceptions.JSONDecodeError, ConnectionError) as e:
                 LOGGER.error('Could not update meter values: request failed or returned no valid JSON', exc_info=True)
                 return
 
